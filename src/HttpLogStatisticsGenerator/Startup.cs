@@ -1,16 +1,16 @@
 ﻿using HttpLogStatisticsGenerator.Input;
+using HttpLogStatisticsGenerator.Statistics;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System.Threading.Tasks;
 
 namespace HttpLogStatisticsGenerator
 {
-    class Program
+    public class Startup
     {
-
         public static async Task Main()
         {
-            var program = new Program();
+            var program = new Startup();
             var services = program.Setup();
             var runner = services.GetService<Runner>();
 
@@ -32,7 +32,10 @@ namespace HttpLogStatisticsGenerator
                 .AddSingleton<StatisticsGeneratorConfiguration>(config)
                 .AddSingleton<IHttpLogReader, FileHttpLogReader>()
                 .AddSingleton<IHttpLogTokenizer, HttpLogTokenizer>()
-                .AddSingleton<IHttpInputParser, HttpInputParser>()
+                .AddSingleton<IHttpLogParser, HttpInputParser>()
+                .AddSingleton<IStatisticsGenerator, UniqueIpAddressStatistic>()
+                .AddSingleton<IStatisticsGenerator, TopIpAddressGenerator>()
+                .AddSingleton<IStatisticsGenerator, TopUrlStatisticGenerator>()
                 .AddSingleton<Runner>()
                 .BuildServiceProvider();
 

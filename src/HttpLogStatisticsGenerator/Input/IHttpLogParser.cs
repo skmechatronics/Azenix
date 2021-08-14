@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HttpLogStatisticsGenerator.Input
 {
-    public interface IHttpInputParser
+    public interface IHttpLogParser
     {
         IEnumerable<HttpLogEntryDto> Parse(IEnumerable<RawHttpLogEntry> tokenizedLogs);
     }

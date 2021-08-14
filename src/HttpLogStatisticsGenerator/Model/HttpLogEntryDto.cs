@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 
 namespace HttpLogStatisticsGenerator.Model
 {
@@ -9,8 +8,6 @@ namespace HttpLogStatisticsGenerator.Model
     /// </summary>
     public class HttpLogEntryDto
     {
-        public DateTime DateTime { get; set; }
-
         public IPAddress IPAddress { get; set; }
 
         public string SubPath { get; set; }
