@@ -51,10 +51,11 @@ namespace HttpLogStatisticsGenerator
 
         private Startup AddLogging()
         {
-            var loggingConfiguration = new LoggerConfiguration()
-                                        .WriteTo.Console();
-            services
-               .AddLogging(logging => logging.AddSerilog(loggingConfiguration.CreateLogger()));
+            var logger = new LoggerConfiguration()
+                                .ReadFrom.Configuration(configuration)
+                                .CreateLogger();
+
+            services.AddLogging(logging => logging.AddSerilog(logger));
 
             return this;
         }

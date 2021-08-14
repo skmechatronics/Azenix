@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
 
 namespace HttpLogStatisticsGenerator.Tests.Statistics
 {
@@ -6,6 +7,9 @@ namespace HttpLogStatisticsGenerator.Tests.Statistics
     public class UniqueIpAddressStatisticTests
     {
         [Test]
-        public void Test
+        public void Test()
+        {
+            true.Should().BeTrue();
+        }
     }
 }
