@@ -20,7 +20,7 @@ namespace HttpLogStatisticsGenerator.Input
         {
             if (!File.Exists(this.configuration.InputFileLogPath))
             {
-                throw new AzenixException("The file does not exist");
+                throw new AzenixException("The file does not exist.");
             }
 
             var lines = await File.ReadAllLinesAsync(this.configuration.InputFileLogPath);
