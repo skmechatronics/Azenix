@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace HttpLogStatisticsGenerator.Statistics
 {
-    public abstract class AbstractTopStatisticGenerator : IStatisticsGenerator
+    public abstract class AbstractTopStatisticGenerator : IStatisticGenerator
     {
-        public abstract StatisticResult Generate(IEnumerable<HttpLogEntryDto> httpLogs);
+        public abstract StatisticResult Process(IEnumerable<HttpLogEntryDto> httpLogs);
 
         public IEnumerable<T> GetTopNEntities<T>(
             IEnumerable<HttpLogEntryDto> httpLogs,

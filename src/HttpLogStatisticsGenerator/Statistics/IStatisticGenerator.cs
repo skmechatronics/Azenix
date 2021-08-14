@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace HttpLogStatisticsGenerator.Statistics
 {
-    public interface IStatisticsGenerator
+    public interface IStatisticGenerator
     {
-        StatisticResult Generate(IEnumerable<HttpLogEntryDto> httpLogs);
+        StatisticResult Process(IEnumerable<HttpLogEntryDto> httpLogs);
     }
 }

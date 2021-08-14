@@ -18,14 +18,14 @@ namespace HttpLogStatisticsGenerator
 
         private readonly IHttpLogReader httpLogReader;
         private readonly IHttpLogTokenizer httpLogTokenizer;
-        private readonly IEnumerable<IStatisticsGenerator> statisticGenerators;
+        private readonly IEnumerable<IStatisticGenerator> statisticGenerators;
         private readonly IHttpLogParser httpLogParser;
         private readonly ILogger<Orchestrator> logger;
 
         public Orchestrator(IHttpLogReader httpLogReader,
                         IHttpLogTokenizer httpLogTokenizer,
                         IHttpLogParser httpLogParser,
-                        IEnumerable<IStatisticsGenerator> statisticGenerators,
+                        IEnumerable<IStatisticGenerator> statisticGenerators,
                         ILogger<Orchestrator> logger)
         {
             this.httpLogReader = httpLogReader;
@@ -73,7 +73,7 @@ namespace HttpLogStatisticsGenerator
         {
             this.logger.LogInformation("Generating statistics.");
             var tasks =  this.statisticGenerators.Select(
-                statistic => Task.Run(() => statistic.Generate(httpLogs)));
+                statistic => Task.Run(() => statistic.Process(httpLogs)));
 
             var result = await Task.WhenAll(tasks);
             return result;

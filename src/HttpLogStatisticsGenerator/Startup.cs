@@ -73,9 +73,9 @@ namespace HttpLogStatisticsGenerator
         private Startup AddGenerators()
         {
             this.services
-                .AddSingleton<IStatisticsGenerator, UniqueIpAddressStatistic>()
-                .AddSingleton<IStatisticsGenerator, TopIpAddressGenerator>()
-                .AddSingleton<IStatisticsGenerator, TopUrlStatisticGenerator>()
+                .AddSingleton<IStatisticGenerator, UniqueIpAddressStatisticGenerator>()
+                .AddSingleton<IStatisticGenerator, TopIpAddressStatisticGenerator>()
+                .AddSingleton<IStatisticGenerator, TopUrlStatisticGenerator>()
                 .AddSingleton<Orchestrator>();
 
             return this;

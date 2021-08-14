@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace HttpLogStatisticsGenerator.Statistics
 {
-    public class UniqueIpAddressStatistic : IStatisticsGenerator
+    public class UniqueIpAddressStatisticGenerator : IStatisticGenerator
     {
-        public StatisticResult Generate(IEnumerable<HttpLogEntryDto> httpLogs)
+        public StatisticResult Process(IEnumerable<HttpLogEntryDto> httpLogs)
         {
             var uniqueIPAddresses = httpLogs.Select(i => i.IPAddress).Distinct().Count();
             var message = $"The number of unique IP Addresses are: {uniqueIPAddresses}";
