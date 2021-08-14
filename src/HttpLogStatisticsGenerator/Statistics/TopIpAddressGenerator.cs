@@ -12,7 +12,7 @@ namespace HttpLogStatisticsGenerator.Statistics
         public override StatisticResult Generate(IEnumerable<HttpLogEntryDto> httpLogs)
         {
             var topIpAddresses = this.GetTopNEntities(httpLogs, log => log.IPAddress, IpAddressToShow);
-            var message = $"The top {IpAddressToShow} most active Ip Addresses are : {string.Join(Separator, topIpAddresses)}";
+            var message = $"The top {IpAddressToShow} most active IP Addresses are : {string.Join(Separator, topIpAddresses)}";
             return new StatisticResult { Message = message };
         }
     }

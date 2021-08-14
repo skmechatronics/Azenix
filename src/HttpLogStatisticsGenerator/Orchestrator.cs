@@ -55,7 +55,7 @@ namespace HttpLogStatisticsGenerator
 
             foreach(var statistic in statistics)
             {
-                outputBuilder.Append(statistic);
+                outputBuilder.AppendLine(statistic.Message);
             }
             
             Console.ForegroundColor = ConsoleColor.Green;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace HttpLogStatisticsGenerator.Input
     {
         private readonly StatisticsGeneratorConfiguration configuration;
 
-        public FileHttpLogReader(StatisticsGeneratorConfiguration configuration)
+        public FileHttpLogReader(IOptions<StatisticsGeneratorConfiguration> configuration)
         {
-            this.configuration = configuration;
+            this.configuration = configuration.Value;
         }
 
         public async Task<IEnumerable<string>> ReadHttpLogs()
