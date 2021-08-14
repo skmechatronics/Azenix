@@ -5,11 +5,12 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace HttpLogStatisticsGenerator
 {
-    public class Runner
+    public class Orchestrator
     {
         private const string OutputHeader = "* HTTP Log Statistics *";
 
@@ -19,13 +20,13 @@ namespace HttpLogStatisticsGenerator
         private readonly IHttpLogTokenizer httpLogTokenizer;
         private readonly IEnumerable<IStatisticsGenerator> statisticGenerators;
         private readonly IHttpLogParser httpLogParser;
-        private readonly ILogger<Runner> logger;
+        private readonly ILogger<Orchestrator> logger;
 
-        public Runner(IHttpLogReader httpLogReader,
+        public Orchestrator(IHttpLogReader httpLogReader,
                         IHttpLogTokenizer httpLogTokenizer,
                         IHttpLogParser httpLogParser,
                         IEnumerable<IStatisticsGenerator> statisticGenerators,
-                        ILogger<Runner> logger)
+                        ILogger<Orchestrator> logger)
         {
             this.httpLogReader = httpLogReader;
             this.httpLogTokenizer = httpLogTokenizer;
@@ -37,21 +38,30 @@ namespace HttpLogStatisticsGenerator
         public async Task Run()
         {
             var httpLogs = await this.RetrieveHttpLogs();
+            if (!httpLogs.Any())
+            {
+                throw new AzenixException("Did not parse any valid HTTP logs. Please check the log source and try again.");
+            }
+
             var statistics = await this.GetStatistics(httpLogs);
             this.OutputStatistics(statistics);
         }
 
         private void OutputStatistics(IEnumerable<StatisticResult> statistics)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\n{HeaderDecoration}\n{OutputHeader}\n{HeaderDecoration}\n");
+
+            var outputBuilder = new StringBuilder();
+            outputBuilder.Append($"\n{ HeaderDecoration}\n{ OutputHeader}\n{ HeaderDecoration}\n\n");
 
             foreach(var statistic in statistics)
             {
-                Console.WriteLine(statistic.Message);
+                outputBuilder.Append(statistic);
             }
-            Console.WriteLine();
+            
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(outputBuilder.ToString());
             Console.ForegroundColor = ConsoleColor.White;
+
             this.logger.LogInformation("Completed Run");
         }
 

@@ -2,7 +2,9 @@
 using HttpLogStatisticsGenerator.Statistics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Serilog;
+using System;
 using System.Threading.Tasks;
 
 namespace HttpLogStatisticsGenerator
@@ -12,12 +14,14 @@ namespace HttpLogStatisticsGenerator
         private readonly ServiceCollection services;
         private readonly IConfigurationRoot configuration;
         private ServiceProvider serviceProvider;
+        private Orchestrator orchestrator;
+        private ILogger<Startup> logger;
 
         public Startup()
         {
             this.services = new ServiceCollection();
             this.configuration = new ConfigurationBuilder()
-                                .AddJsonFile("appsettings.json")
+                                .AddJsonFile("appSettings.json")
                                 .Build();
         }
 
@@ -25,7 +29,8 @@ namespace HttpLogStatisticsGenerator
         {
             var program = new Startup();
             program.Setup();
-            await program.Run();            
+            await program.Run();
+
         }
 
         private void Setup()
@@ -34,7 +39,7 @@ namespace HttpLogStatisticsGenerator
                 .AddLogging()
                 .AddInputProcessors()
                 .AddGenerators()
-                .BuildServiceProvider();
+                .FinalizeSetup();
         }
 
         private Startup AddConfiguration()
@@ -70,21 +75,33 @@ namespace HttpLogStatisticsGenerator
                 .AddSingleton<IStatisticsGenerator, UniqueIpAddressStatistic>()
                 .AddSingleton<IStatisticsGenerator, TopIpAddressGenerator>()
                 .AddSingleton<IStatisticsGenerator, TopUrlStatisticGenerator>()
-                .AddSingleton<Runner>();
+                .AddSingleton<Orchestrator>();
 
             return this;
         }
 
-        private Startup BuildServiceProvider()
+        private Startup FinalizeSetup()
         {
             this.serviceProvider = this.services.BuildServiceProvider();
+            this.orchestrator = this.serviceProvider.GetService<Orchestrator>();
+            this.logger = this.serviceProvider.GetService<ILogger<Startup>>();
             return this;
         }
 
         private async Task Run()
         {
-            var runner = this.serviceProvider.GetService<Runner>();
-            await runner.Run();
+            try
+            {
+                await this.orchestrator.Run();
+            }
+            catch (AzenixException azenixException)
+            {
+                this.logger.LogError(azenixException, "An application error occurred: {exceptionDetails}");
+            }
+            catch (Exception unexpectedException)
+            {
+                this.logger.LogError(unexpectedException, "An unexpected error occurred");
+            }
         }
 
     }

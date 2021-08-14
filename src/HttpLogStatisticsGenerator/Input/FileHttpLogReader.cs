@@ -8,13 +8,10 @@ namespace HttpLogStatisticsGenerator.Input
 {
     public class FileHttpLogReader : IHttpLogReader
     {
-        
-        private readonly ILogger<FileHttpLogReader> logger;
         private readonly StatisticsGeneratorConfiguration configuration;
 
-        public FileHttpLogReader(StatisticsGeneratorConfiguration configuration, ILogger<FileHttpLogReader> logger)
+        public FileHttpLogReader(StatisticsGeneratorConfiguration configuration)
         {
-            this.logger = logger;
             this.configuration = configuration;
         }
 
