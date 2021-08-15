@@ -97,7 +97,7 @@ namespace HttpLogStatisticsGenerator
             }
             catch (AzenixException azenixException)
             {
-                this.logger.LogError(azenixException, "An application error occurred: {exceptionDetails}");
+                this.logger.LogError(azenixException, "An application error occurred");
             }
             catch (Exception unexpectedException)
             {
