@@ -12,7 +12,7 @@ namespace HttpLogStatisticsGenerator.Input
 
         private const string SpacedToken = "([^\\s]+)";
 
-        private const string BracketedToken = "(\\[.*\\])";
+        private const string BracketedToken = "\\[(.*)\\]";
 
         private const string QuotedToken = "\"([^\"]+)\"";
 
@@ -42,7 +42,7 @@ namespace HttpLogStatisticsGenerator.Input
             {
                 var tokenized = HttpLogPattern.Match(log);
 
-                // The first token is the match itself whic is to be ignored
+                // The first token is the match itself which is to be ignored
                 if (tokenized.Groups.Count == ExpectedTokens + 1)
                 {
                     tokenizedLogs.Add(ConvertTextToLogEntry(tokenized.Groups));
