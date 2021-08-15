@@ -10,7 +10,7 @@
 ### Features
 - Decoupled, pluggable components by following SOLID principles
   - S - Each class is responsible for a single piece of the overall logic
-  - O - Can add and remove statistic generators by implementing the IStatisticsGenerator
+  - O - Can add and remove statistic generators by implementing the IStatisticsGenerator but can't modify existing statistic generators
   - L - The Orchestrator will receive several IStatisicGenerator; it's not concerned with the implementation, only with the StatisticResult
   - I - All classes are injected via an interface which have specific methods for that responsibility
   - D - Use of Microsoft's IoC container for dependency inversion
