@@ -9,7 +9,7 @@ namespace HttpLogStatisticsGenerator.Input
     /// Note that only two fields are parsed as that's all that's required
     /// But the remainder can be accommodated easily and when needed
     /// </summary>
-    public class HttpInputParser : IHttpLogParser
+    public class HttpLogParser : IHttpLogParser
     {
         private const int ExpectedRequestTokens = 3;
 

@@ -65,7 +65,7 @@ namespace HttpLogStatisticsGenerator
             this.services
                 .AddSingleton<IHttpLogReader, FileHttpLogReader>()
                 .AddSingleton<IHttpLogTokenizer, HttpLogTokenizer>()
-                .AddSingleton<IHttpLogParser, HttpInputParser>();
+                .AddSingleton<IHttpLogParser, HttpLogParser>();
 
             return this;
         }
